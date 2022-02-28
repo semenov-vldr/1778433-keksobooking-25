@@ -23,22 +23,20 @@ const getRandomFloat = (min, max, numsign = 1) => {
 
 // Object 1 - Описание автора (аватарка)
 
-let numUser = String(getRandomInt(1, 10)).padStart(2, 0);
-let avatar = `img/avatars/user${numUser}.png`;
+const numUser = String(getRandomInt(1, 10)).padStart(2, 0);
+const avatar = `img/avatars/user${numUser}.png`;
 
-let author = {avatar};
+const author = {avatar};
 
 
 //  Object 2 - Информация об объявлении
 
 // 1)
-let price =  getRandomInt(10, 100);
+const price =  getRandomInt(10, 100);
 
 // 2)
 const typeMas = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-const type = (elem) => {
-    return typeMas[getRandomInt(0, typeMas.length - 1)];
-}
+const type = (elem) => typeMas[getRandomInt(0, typeMas.length - 1)];
 
 // 3)
 const rooms = getRandomInt(1, 10);
@@ -48,39 +46,35 @@ const guests = getRandomInt(1, 20);
 
 // 5)
 const checkinMas = ['12:00', '13:00', '14:00'];
-const checkin = (elem) => {
-  return checkinMas[getRandomInt(0, checkinMas.length - 1)];
-}
+const checkin = (elem) => checkinMas[getRandomInt(0, checkinMas.length - 1)];
 
 // 6)
-const checkout = (elem) => {
-  return checkinMas[getRandomInt(0, checkinMas.length - 1)];
-}
+const checkout = (elem) => checkinMas[getRandomInt(0, checkinMas.length - 1)];
 
 // 7)
 const featuresMas = ['wifi', 'dishwashar', 'parking', 'washer', 'elevator', 'conditioner'];
 
 const getRandomFeature = () => {
-  let fea = []; // генерируемый массив
-  let feaLng = getRandomInt(1, featuresMas.length); // задаем рендомную длину генерируемому массиву от 1 до 6
+  const fea = []; // генерируемый массив
+  const feaLng = getRandomInt(1, featuresMas.length); // задаем рендомную длину генерируемому массиву от 1 до 6
 
   while (fea.length < feaLng) {
-      var elemRand = featuresMas[getRandomInt(0, featuresMas.length-1)]; // рендомный элемент массива с индексом от 0 до 5
-      var found = false;
-      for (var i = 0; i < fea.length; i++) {
-          if (fea[i] === elemRand){
-              found = true;
-              break;
-              }
+    const elemRand = featuresMas[getRandomInt(0, featuresMas.length-1)]; // рендомный элемент массива с индексом от 0 до 5
+    let found = false;
+    for (let i = 0; i < fea.length; i++) {
+      if (fea[i] === elemRand){
+        found = true;
+        break;
       }
-      if (!found) {
-          fea[fea.length]=elemRand;
-      }
+    }
+    if (!found) {
+      fea[fea.length]=elemRand;
+    }
   }
   return fea;
-}
+};
 
-let offer = {
+const offer = {
   title: 'Заголовок предложения', // заменить
   //address: {{location.lat}}, {{location.lng}}, // Адрес предложения
   price,
@@ -92,15 +86,15 @@ let offer = {
   features: getRandomFeature(),
   description: 'Описание помещения',
   photos: 'Фото',
-}
+};
 
 
- //  Object 3 - Местоположение
+//  Object 3 - Местоположение
 
-let locationn = {
+const locationn = {
   lat: getRandomFloat(35.65, 35.7, 5),
   lng: getRandomFloat(139.7, 139.8, 5),
-}
+};
 
 // console.log(author);
 // console.log(offer);

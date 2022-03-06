@@ -1,21 +1,4 @@
-// Случайное целое число
-const getRandomInt = (min, max) => {
-  if (min >= 0 & max >= 0 & max > min) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor (Math.random() * (max - min + 1) + min);
-  } return 'Неверный диапазон!';
-};
-
-// Случайное десятичное число
-const getRandomFloat = (min, max, numsign = 1) => {
-  if (min >= 0 & max >= 0 & max > min) {
-    const result = Math.random() * (max-min) + min;
-    return +result.toFixed(numsign);
-  } return 'Неверный диапазон!';
-};
-
-// **************************************************************************
+import {getRandomInt, getRandomFloat} from './get_random_value.js';
 
 const generateAvatar = () => {
   const numUser = String(getRandomInt(1, 10)).padStart(2, 0);
@@ -23,8 +6,6 @@ const generateAvatar = () => {
   const author = {avatar};
   return author;
 };
-
-//generateAvatar();
 
 
 const generateInfoHouse = () => {
@@ -34,29 +15,24 @@ const generateInfoHouse = () => {
     lng: getRandomFloat(139.7, 139.8, 5),
   };
 
-  // 1)
+
   const housingPrice =  getRandomInt(10, 100);
 
-  // 2)
   const randomHousingType = () =>  {
     const housingTypes = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
     return housingTypes[getRandomInt(0, housingTypes.length - 1)];
   };
 
-  // 3)
+
   const rooms = getRandomInt(1, 10);
 
-  // 4)
   const guests = getRandomInt(1, 20);
 
-  // 5)
   const checkinTimes = ['12:00', '13:00', '14:00'];
   const getCheckinTime = () => checkinTimes[getRandomInt(0, checkinTimes.length - 1)];
 
-  // 6)
   const getCheckoutTime = () => checkinTimes[getRandomInt(0, checkinTimes.length - 1)];
 
-  // 7)
   const getRandomFeatures = () => {
 
     const featuresList = ['wifi', 'dishwashar', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -71,7 +47,6 @@ const generateInfoHouse = () => {
     return [...features];
   };
 
-  // 8)
   const getRandomPhotos = () => {
     const photosArr = [
       'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
@@ -95,7 +70,6 @@ const generateInfoHouse = () => {
     description: 'Описание помещения', // заменить
     photos: getRandomPhotos(),
   };
-
 
   switch(offer.type) {
     case 'palace': offer.description = 'Дворец для настоящего королевского отдыха';

@@ -96,5 +96,22 @@ const generateArrAd = Array.from({length: 10}, descriptionAdd);
 
 
 // eslint-disable-next-line no-console
-console.log(generateArrAd);
+//console.log(generateArrAd);
 
+
+
+
+//----------------------------------------------------------------
+
+
+const mapCanvas = document.querySelector('#map-canvas');
+
+// Шаблон для клонирования
+const cardTemplate = document.querySelector('#card > .popup');
+
+// Делаем клонирование
+const popupItem = cardTemplate.cloneNode(true);
+// Клонированный шаблон добавляем в блок #map-canvas
+mapCanvas.appendChild(popupItem);
+
+console.log(mapCanvas);

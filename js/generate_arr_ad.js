@@ -94,4 +94,4 @@ const descriptionAdd = () => ({
 
 const generateArrAd = new Array(1).fill(null).map(() => descriptionAdd());
 
-console.log(generateArrAd);
+export {generateArrAd};

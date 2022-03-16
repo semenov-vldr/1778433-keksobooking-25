@@ -9,19 +9,17 @@ const photoListElement = document.querySelector('.popup__photos');
 const photoListFragment = document.createDocumentFragment();
 const descriptionElement = popupItem.querySelector('.popup__description');
 
-
 const generatePopup = generateArrAd;
 
 generatePopup.forEach((offer) => {
   popupItem.querySelector('.popup__title').textContent = offer.title;
-  popupItem.querySelector('.popup__text--address').textContent = offer.address;
-  popupItem.querySelector('.popup__text--price').textContent = `${offer.price  } ₽/ночь`;
+  popupItem.querySelector('.popup__text--address').textContent = `${offer.address.lat} - ${offer.address.lng}`;
+  popupItem.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
   popupItem.querySelector('.popup__type').textContent = offer.type;
-  popupItem.querySelector('.popup__text--capacity').textContent = `${offer.rooms  } комнаты для ${  offer.guests  } гостей`;
-  popupItem.querySelector('.popup__text--time').textContent = `Заезд после ${  offer.checkin  }, выезд до ${  offer.checkout}`;
+  popupItem.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+  popupItem.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   popupItem.querySelector('.popup__features').textContent = offer.features;
   descriptionElement.textContent = offer.description;
-  //popupItem.querySelector('.popup__photo').src = offer.photos;
   popupItem.querySelector('.popup__avatar').src = offer.avatar;
   mapCanvas.appendChild(popupItem);
 
@@ -31,8 +29,10 @@ generatePopup.forEach((offer) => {
     photoItem.src = photo;
     photoListFragment.appendChild(photoItem);
   });
-  photoListElement.textContent = '';
-  photoListElement.appendChild(photoListFragment);
+  popupItem.appendChild(photoListFragment);
+
+  photoListElement.querySelector('.popup-photo').classList.add('.hidden'); // не получается скрыть первое фото в блоке "popup__photos"
+
 
   // Скрытие блока, если нет данных
   const checkDataAvailable = (content, element) => {

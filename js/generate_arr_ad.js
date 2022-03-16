@@ -8,12 +8,13 @@ const generateAvatar = () => {
 };
 
 const generateInfoHouse = () => {
+
   const address = {
     lat: getRandomFloat(35.65, 35.7, 5),
     lng: getRandomFloat(139.7, 139.8, 5),
   };
 
-  const price =  getRandomInt(1000, 10000);
+  const price =  getRandomInt(0, 100000);
 
   const TYPES = {
     palace: 'Дворец',
@@ -55,6 +56,7 @@ const generateInfoHouse = () => {
     photos: getRandomArrayLength(photosArr),
   };
 
+  console.log(offer.address);
 
   switch(offer.type) {
     case 'Дворец': offer.description = 'Дворец для настоящего королевского отдыха';

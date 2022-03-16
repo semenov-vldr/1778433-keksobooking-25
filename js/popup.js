@@ -31,8 +31,7 @@ generatePopup.forEach((offer) => {
   });
   popupItem.appendChild(photoListFragment);
 
-  photoListElement.querySelector('.popup-photo').classList.add('.hidden'); // не получается скрыть первое фото в блоке "popup__photos"
-
+  document.querySelector('.popup__photo:first-child').classList.add('hidden');
 
   // Скрытие блока, если нет данных
   const checkDataAvailable = (content, element) => {

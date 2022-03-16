@@ -56,8 +56,6 @@ const generateInfoHouse = () => {
     photos: getRandomArrayLength(photosArr),
   };
 
-  console.log(offer.address);
-
   switch(offer.type) {
     case 'Дворец': offer.description = 'Дворец для настоящего королевского отдыха';
       break;

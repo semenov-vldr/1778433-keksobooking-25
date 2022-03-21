@@ -54,12 +54,11 @@ function validateTypesOfHousing (value) {
   return parseInt(value, 10) >= housingMinPrices[unit];
 }
 
-function onUnitChangePrice () {
-  price.placeholder = housingMinPrices[this.value];
+function onUnitChangePrice (value) {
+  price.placeholder = housingMinPrices[value];
   pristine.validate(price);
 }
-
-typesOfHousing.querySelectorAll('option').forEach((item) => item.addEventListener('change', onUnitChangePrice));
+typesOfHousing.addEventListener('change', () => onUnitChangePrice(typesOfHousing.value));
 
 const getTypesOfHousingErrorMessage = () => 'Цена не соответствует';
 

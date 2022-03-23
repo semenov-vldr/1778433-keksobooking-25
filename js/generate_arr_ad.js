@@ -71,7 +71,7 @@ const generateInfoHouse = () => {
   return offer;
 };
 
-const generateArrAd = new Array(1).fill(null).map(() => ({
+const generateArrAd = new Array(4).fill(null).map(() => ({
   avatar: generateAvatar(),
   ...generateInfoHouse(),
 }));

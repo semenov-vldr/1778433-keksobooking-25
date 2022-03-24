@@ -1,4 +1,5 @@
 import {generateArrAd} from './generate_arr_ad.js';
+import {offers, createCustomPopup} from './popup.js';
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -7,7 +8,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: 35.68948,
     lng: 139.69170,
-  }, 20);
+  }, 12);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -54,14 +55,21 @@ resetButton.addEventListener('click', () => {
   }, 16);
 });
 
-const points = [];
+const icon = L.icon({
+  iconUrl: './img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
-generateArrAd.map(item => points.push(item.address));
-
-points.forEach(({lat, lng}) => {
+offers.forEach((item) => {
+  const {lat, lng} = item.address;
   const marker = L.marker({
     lat,
     lng,
+  },
+  {
+    icon,
   });
-  marker.addTo(map);
+  marker.addTo(map).bindPopup(createCustomPopup(offers));
+  //console.log(createCustomPopup(offers));
 });

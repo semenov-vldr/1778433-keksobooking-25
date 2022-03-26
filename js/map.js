@@ -70,6 +70,5 @@ offers.forEach((item) => {
   {
     icon,
   });
-  marker.addTo(map).bindPopup(createCustomPopup(offers));
-  //console.log(createCustomPopup(offers));
+  marker.addTo(map).bindPopup(createCustomPopup(item));
 });

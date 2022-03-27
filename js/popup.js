@@ -1,37 +1,49 @@
 import {generateArrAd} from './generate_arr_ad.js';
 
+const offers = generateArrAd;
+
 // Шаблон для клонирования
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const popupItem = cardTemplate.cloneNode(true);
 const mapCanvas = document.querySelector('#map-canvas');
-const featureListElement = popupItem.querySelector('.popup__features');
 const photoListElement = document.querySelector('.popup__photos');
-const photoListFragment = document.createDocumentFragment();
-const descriptionElement = popupItem.querySelector('.popup__description');
+const photoListElementFragment = document.createDocumentFragment();
+//const popupListElement = document.createDocumentFragment();
 
-const generatePopup = generateArrAd;
+const createCustomPopup = (array) => {
 
-generatePopup.forEach((offer) => {
-  popupItem.querySelector('.popup__title').textContent = offer.title;
-  popupItem.querySelector('.popup__text--address').textContent = `${offer.address.lat} - ${offer.address.lng}`;
-  popupItem.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  popupItem.querySelector('.popup__type').textContent = offer.type;
-  popupItem.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
-  popupItem.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  popupItem.querySelector('.popup__features').textContent = offer.features;
-  descriptionElement.textContent = offer.description;
-  popupItem.querySelector('.popup__avatar').src = offer.avatar;
+  const popupItem = cardTemplate.cloneNode(true);
+  const featureListElement = popupItem.querySelector('.popup__features');
+  const descriptionElement = popupItem.querySelector('.popup__description');
+
+  popupItem.querySelector('.popup__title').textContent = array.title;
+  popupItem.querySelector('.popup__text--address').textContent = `${array.address.lat} - ${array.address.lng}`;
+  popupItem.querySelector('.popup__text--price').textContent = `${array.price} ₽/ночь`;
+  popupItem.querySelector('.popup__type').textContent = array.type;
+  popupItem.querySelector('.popup__text--capacity').textContent = `${array.rooms} комнаты для ${array.guests} гостей`;
+  popupItem.querySelector('.popup__text--time').textContent = `Заезд после ${array.checkin}, выезд до ${array.checkout}`;
+  descriptionElement.textContent = array.description;
+  popupItem.querySelector('.popup__avatar').src = array.avatar;
   mapCanvas.appendChild(popupItem);
 
+  featureListElement.textContent = ''; // <-- не пойму как влияет на список
+  array.features.forEach((item) => {
+    const featureElement = document.createElement('li');
+    const featureClass = `popup__feature--${item}`;
+    featureElement.classList.add('popup__feature', featureClass);
+    featureListElement.appendChild(featureElement);
+  });
+
   // Добавление дополнительных тегов img для фото
-  offer.photos.forEach((photo) => {
+  array.photos.forEach((photo) => {
     const photoItem = document.querySelector('.popup__photo').cloneNode(true);
     photoItem.src = photo;
-    photoListFragment.appendChild(photoItem);
+    photoListElementFragment.appendChild(photoItem);
   });
-  popupItem.appendChild(photoListFragment);
 
-  document.querySelector('.popup__photo:first-child').classList.add('hidden');
+  popupItem.appendChild(photoListElementFragment);
+
+
+  //document.querySelector('.popup__photo:first-child').classList.add('hidden');
 
   // Скрытие блока, если нет данных
   const checkDataAvailable = (content, element) => {
@@ -40,10 +52,13 @@ generatePopup.forEach((offer) => {
     }
   };
 
-  checkDataAvailable(offer.features, featureListElement);
-  checkDataAvailable(offer.photos, photoListElement);
-  checkDataAvailable(offer.description, descriptionElement);
+  checkDataAvailable(array.features, featureListElement);
+  checkDataAvailable(array.photos, photoListElement);
+  checkDataAvailable(array.description, descriptionElement);
 
-});
+  //popupListElement.appendChild(popupItem);
 
+  return popupItem;
+};
 
+export {createCustomPopup, offers};

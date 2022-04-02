@@ -1,8 +1,9 @@
 const API_URL = 'https://25.javascript.pages.academy/keksobooking';
+const ADVERT_COUNT = 10;
 
 const getAdverts = () => fetch(`${API_URL}/data`)
   .then((response) => response.json())
-  .then((offers) => offers)
+  .then((offers) => offers.slice(0, ADVERT_COUNT))
   .catch(() => console.error('Ошибка при загрузке данных с сервера!'));
 
 

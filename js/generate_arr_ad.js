@@ -78,5 +78,3 @@ const generateArrAd = new Array(5).fill(null).map(() => ({
 
 const offers = generateArrAd;
 
-
-export {offers};

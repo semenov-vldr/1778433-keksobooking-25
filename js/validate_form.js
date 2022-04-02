@@ -2,8 +2,6 @@ export {sendAdvert} from './api.js';
 export {showAlert} from './utils.js';
 
 const form = document.querySelector('.ad-form');
-const price = form.querySelector('#price');
-const roomNumberField = form.querySelector('#room_number');
 const submitButton = form.querySelector('.ad-form__submit');
 
 const pristine = new Pristine(form, {
@@ -16,17 +14,18 @@ const pristine = new Pristine(form, {
 });
 
 // Title
+const titleField = form.querySelector('#title');
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
 
-pristine.addValidator(
-  form.querySelector('#title'), validateTitle, 'От 30 до 100 символов'
-);
+pristine.addValidator(titleField, validateTitle, 'От 30 до 100 символов');
 
 // Price
+const priceField = form.querySelector('#price');
 const validatePrice = (value) => parseInt(value, 10) >= 0 && parseInt(value, 10) <= 100000;
-pristine.addValidator(price, validatePrice, 'От 0 до 100 000');
+pristine.addValidator(priceField, validatePrice, 'От 0 до 100 000');
 
 // Rooms and guests
+const roomNumberField = form.querySelector('#room_number');
 const capacityField = form.querySelector('#capacity');
 const settleOption = {
   '1'   : ['1'],
@@ -40,8 +39,8 @@ function validateSettle () {
 }
 const getSettleErrorMessage = () => 'Недопустимый вариант заселения';
 
-pristine.addValidator(roomNumberField, validateSettle, getSettleErrorMessage);
-pristine.addValidator(capacityField, validateSettle, getSettleErrorMessage);
+//pristine.addValidator(roomNumberField, validateSettle, getSettleErrorMessage);
+//pristine.addValidator(capacityField, validateSettle, getSettleErrorMessage);
 
 // Тип жилья
 const typesOfHousing = form.querySelector('#type');
@@ -59,15 +58,15 @@ function validateTypesOfHousing (value) {
 }
 
 function onUnitChangePrice (value) {
-  price.placeholder = housingMinPrices[value];
-  pristine.validate(price);
+  priceField.placeholder = housingMinPrices[value];
+  pristine.validate(priceField);
 }
 typesOfHousing.addEventListener('change', () => onUnitChangePrice(typesOfHousing.value));
 
 const getTypesOfHousingErrorMessage = () => 'Цена не соответствует';
 
-pristine.addValidator(typesOfHousing, validateTypesOfHousing, getTypesOfHousingErrorMessage);
-pristine.addValidator(price, validateTypesOfHousing, getTypesOfHousingErrorMessage);
+//pristine.addValidator(typesOfHousing, validateTypesOfHousing, getTypesOfHousingErrorMessage);
+//pristine.addValidator(priceField, validateTypesOfHousing, getTypesOfHousingErrorMessage);
 
 
 // Добавляем обработчик на изменения значения в input
@@ -87,25 +86,36 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Опубликовать';
 };
 
-const setUserFormSubmit = (onSuccess) => {
-  form.addEventListener('submit', (evt) => {
-    evt.preventDefault();
+// const setUserFormSubmit = (onSuccess) => {
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
 
-    const isValid = pristine.validate();
-    if (isValid) {
-      blockSubmitButton();
-      sendAdvert(() => {
-        onSuccess();
-        unblockSubmitButton();
-      },
-      () => {
-        showAlert('Не удалось отправить форму. Попробуйте еще раз');
-        unblockSubmitButton();
-      },
-      new FormData(evt.target),
-      );
-    }
-  });
-};
+  const isValid = pristine.validate();
+  if (isValid) {
+    console.log('Форма валидна');
+    const formData = new FormData(evt.target);
 
-export {setUserFormSubmit};
+    fetch('https://25.javascript.pages.academy/keksobooking',
+      {
+        method: 'POST',
+        body: formData,
+      },
+    );
+  }
+  // if (isValid) {
+  //   blockSubmitButton();
+  //   sendAdvert(() => {
+  //     onSuccess();
+  //     unblockSubmitButton();
+  //   },
+  //   () => {
+  //     showAlert('Не удалось отправить форму. Попробуйте еще раз');
+  //     unblockSubmitButton();
+  //   },
+  //   new FormData(evt.target),
+  //   );
+  // }
+});
+// };
+
+//export {setUserFormSubmit};

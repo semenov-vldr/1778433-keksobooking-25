@@ -1,5 +1,4 @@
 import {createCustomPopup} from './popup.js';
-import { offers } from './generate_arr_ad.js';
 import {getAdverts} from './api.js';
 
 const START_COORDINATE = {
@@ -24,7 +23,7 @@ const MAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">
 
 //******************************************************************** */
 
-// Creat map
+// Create map
 const map = L.map('map-canvas')
   .on('load', () => {
     console.log('Карта инициализирована');
@@ -61,23 +60,7 @@ mainPinMarker.on('moveend', (evt) => {
   setCoordinate(evt.target.getLatLng());
 });
 
-// Setup offers from data
-// loadAdverts().then(array => {
-//   array.forEach((item) => {
-//     const {lat, lng} = item.location;
-//     const icon = L.icon(MAP_MARKER_DEFAULT);
-//     const marker = L.marker({
-//       lat,
-//       lng,
-//     },
-//     {
-//       icon,
-//     });
-//     marker.addTo(map).bindPopup(createCustomPopup(item));
-//   });
-// }, );
-
-getAdverts().then(array => {
+getAdverts().then((array) => {
   array.forEach((item) => {
     const {lat, lng} = item.location;
     const icon = L.icon(MAP_MARKER_DEFAULT);
@@ -91,9 +74,6 @@ getAdverts().then(array => {
     marker.addTo(map).bindPopup(createCustomPopup(item));
   });
 }, );
-
-
-
 
 // Reset map
 addressField.value = `${START_COORDINATE.lat.toFixed(5)}, ${START_COORDINATE.lng.toFixed(5)}`;

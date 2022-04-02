@@ -1,6 +1,6 @@
 import {createCustomPopup} from './popup.js';
 import { offers } from './generate_arr_ad.js';
-import {fetchData} from './get_server-data.js';
+import {getAdverts} from './api.js';
 
 const START_COORDINATE = {
   lat: 35.68948,
@@ -62,19 +62,37 @@ mainPinMarker.on('moveend', (evt) => {
 });
 
 // Setup offers from data
-fetchData().then(array => {
+// loadAdverts().then(array => {
+//   array.forEach((item) => {
+//     const {lat, lng} = item.location;
+//     const icon = L.icon(MAP_MARKER_DEFAULT);
+//     const marker = L.marker({
+//       lat,
+//       lng,
+//     },
+//     {
+//       icon,
+//     });
+//     marker.addTo(map).bindPopup(createCustomPopup(item));
+//   });
+// }, );
+
+getAdverts().then(array => {
   array.forEach((item) => {
     const {lat, lng} = item.location;
+    const icon = L.icon(MAP_MARKER_DEFAULT);
     const marker = L.marker({
       lat,
       lng,
     },
     {
-      mainPinIcon,
+      icon,
     });
     marker.addTo(map).bindPopup(createCustomPopup(item));
   });
 }, );
+
+
 
 
 // Reset map

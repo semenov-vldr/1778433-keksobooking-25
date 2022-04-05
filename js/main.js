@@ -7,3 +7,5 @@ import './get_slider.js';
 import './api.js';
 import './utils.js';
 import './add-avatar_and_images.js';
+import './modal.js';
+import './filter.js';

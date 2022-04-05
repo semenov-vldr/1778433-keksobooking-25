@@ -1,5 +1,5 @@
-export {sendAdvert} from './api.js';
-export {showAlert} from './utils.js';
+import {API_URL} from './api.js';
+import {displayModalSuccess, displayModalError} from './modal.js';
 
 const form = document.querySelector('.ad-form');
 const submitButton = form.querySelector('.ad-form__submit');
@@ -39,8 +39,8 @@ function validateSettle () {
 }
 const getSettleErrorMessage = () => 'Недопустимый вариант заселения';
 
-//pristine.addValidator(roomNumberField, validateSettle, getSettleErrorMessage);
-//pristine.addValidator(capacityField, validateSettle, getSettleErrorMessage);
+pristine.addValidator(roomNumberField, validateSettle, getSettleErrorMessage);
+pristine.addValidator(capacityField, validateSettle, getSettleErrorMessage);
 
 // Тип жилья
 const typesOfHousing = form.querySelector('#type');
@@ -52,22 +52,24 @@ const housingMinPrices = {
   palace : 10000,
 };
 
-function validateTypesOfHousing (value) {
+const validateTypesOfHousing = (type) => Number(priceField.value) >= housingMinPrices[type];
+
+function validateTypesOfHousingPrice (value) {
   const unit = typesOfHousing.value;
-  return parseInt(value, 10) >= housingMinPrices[unit];
+  return Number(value) >= housingMinPrices[unit];
 }
 
 function onUnitChangePrice (value) {
   priceField.placeholder = housingMinPrices[value];
   pristine.validate(priceField);
+  pristine.validate(typesOfHousing);
 }
 typesOfHousing.addEventListener('change', () => onUnitChangePrice(typesOfHousing.value));
 
 const getTypesOfHousingErrorMessage = () => 'Цена не соответствует';
 
-//pristine.addValidator(typesOfHousing, validateTypesOfHousing, getTypesOfHousingErrorMessage);
-//pristine.addValidator(priceField, validateTypesOfHousing, getTypesOfHousingErrorMessage);
-
+pristine.addValidator(typesOfHousing, validateTypesOfHousing, getTypesOfHousingErrorMessage);
+pristine.addValidator(priceField, validateTypesOfHousingPrice, getTypesOfHousingErrorMessage);
 
 // Добавляем обработчик на изменения значения в input
 roomNumberField.addEventListener('change', () => {
@@ -86,36 +88,35 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Опубликовать';
 };
 
-// const setUserFormSubmit = (onSuccess) => {
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   const isValid = pristine.validate();
   if (isValid) {
+    blockSubmitButton();
     console.log('Форма валидна');
-    const formData = new FormData(evt.target);
+    const formData = new FormData(evt.target); // Сбор данных из формы в один объект
 
-    fetch('https://25.javascript.pages.academy/keksobooking',
+    fetch(API_URL,
       {
         method: 'POST',
         body: formData,
       },
-    );
+    )
+      .then((responce) => {
+        if (responce.status >= 300) {
+          displayModalError();
+          console.log('Не опубликовано');
+          console.log(responce.status);
+        }
+        else {
+          displayModalSuccess();
+          unblockSubmitButton();
+          console.log('Опубликовано');
+          console.log(responce.status);
+        }
+      }
+      );
   }
-  // if (isValid) {
-  //   blockSubmitButton();
-  //   sendAdvert(() => {
-  //     onSuccess();
-  //     unblockSubmitButton();
-  //   },
-  //   () => {
-  //     showAlert('Не удалось отправить форму. Попробуйте еще раз');
-  //     unblockSubmitButton();
-  //   },
-  //   new FormData(evt.target),
-  //   );
-  // }
 });
-// };
 
-//export {setUserFormSubmit};

@@ -8,8 +8,8 @@ const START_COORDINATE = {
 
 const MAP_MARKER_MAIN = {
   iconUrl: './img/main-pin.svg',
-  iconSize: [62, 85],
-  iconAnchor: [31, 85],
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
 };
 
 const MAP_MARKER_DEFAULT = {
@@ -26,7 +26,6 @@ const MAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">
 // Create map
 const map = L.map('map-canvas')
   .on('load', () => {
-    console.log('Карта инициализирована');
   })
   .setView(START_COORDINATE, 11);
 
@@ -84,4 +83,3 @@ resetButton.addEventListener('click', () => {
   mainPinMarker.setLatLng(START_COORDINATE);
   map.setView(START_COORDINATE, 16);
 });
-

@@ -3,10 +3,7 @@ const cardTemplate = document.querySelector('#card').content.querySelector('.pop
 const mapCanvas = document.querySelector('#map-canvas');
 const photoListElement = document.querySelector('.popup__photos');
 const photoListElementFragment = document.createDocumentFragment();
-//---------------------------------------------------------------------
 
-
-//---------------------------------------------------------------------
 const createCustomPopup = (item) => {
   const popupItem = cardTemplate.cloneNode(true);
   const featureListElement = popupItem.querySelector('.popup__features');

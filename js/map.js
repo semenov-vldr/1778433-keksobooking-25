@@ -1,6 +1,7 @@
 import {createCustomPopup} from './popup.js';
 import {getAdverts} from './api.js';
 
+
 const START_COORDINATE = {
   lat: 35.68948,
   lng: 139.69170,
@@ -59,20 +60,33 @@ mainPinMarker.on('moveend', (evt) => {
   setCoordinate(evt.target.getLatLng());
 });
 
-getAdverts().then((array) => {
-  array.forEach((item) => {
-    const {lat, lng} = item.location;
-    const icon = L.icon(MAP_MARKER_DEFAULT);
-    const marker = L.marker({
-      lat,
-      lng,
-    },
-    {
-      icon,
+
+const formFilter = document.querySelector('.map__filters');
+const markerGroup = L.layerGroup().addTo(map);
+// Отрисовка меток объявлений
+const renderPinList = () => {
+  getAdverts().then((array) => {
+    markerGroup.clearLayers();
+    array.forEach((item) => {
+      const {lat, lng} = item.location;
+      const icon = L.icon(MAP_MARKER_DEFAULT);
+      const marker = L.marker({
+        lat,
+        lng,
+      },
+      {
+        icon,
+      });
+      marker.addTo(markerGroup).bindPopup(createCustomPopup(item));
     });
-    marker.addTo(map).bindPopup(createCustomPopup(item));
-  });
-}, );
+  }, );
+};
+
+renderPinList();
+
+formFilter.addEventListener('change', () => {
+  renderPinList();
+});
 
 // Reset map
 addressField.value = `${START_COORDINATE.lat.toFixed(5)}, ${START_COORDINATE.lng.toFixed(5)}`;
@@ -83,3 +97,4 @@ resetButton.addEventListener('click', () => {
   mainPinMarker.setLatLng(START_COORDINATE);
   map.setView(START_COORDINATE, 16);
 });
+

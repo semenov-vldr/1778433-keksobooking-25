@@ -3,7 +3,6 @@ const selectHousingType = formFilter.querySelector('#housing-type'); // тип �
 const selectPrice  = formFilter.querySelector('#housing-price'); // цена
 const selectRooms  = formFilter.querySelector('#housing-rooms'); // кол-во комнат
 const selectGuests  = formFilter.querySelector('#housing-guests'); // кол-во гостей
-const selectedFeatures = formFilter.querySelectorAll('.map__checkbox:checked'); // выбранные преимущества (checkbox)
 
 const priceMap = {
   low: {min: 0, max: 10000},
@@ -12,12 +11,14 @@ const priceMap = {
 };
 
 const filterAdverts = (advert) => {
+  const selectedFeatures = formFilter.querySelectorAll('.map__checkbox:checked'); // выбранные преимущества (checkbox)
+
   // тип жилья
   const checkType = () =>  advert.offer.type === selectHousingType.value || selectHousingType.value === 'any';
   // цена
   const checkPrice = () => selectPrice.value === 'any' ? true :
     advert.offer.price >= priceMap[selectPrice.value].min && advert.offer.price < priceMap[selectPrice.value].max;
-    // число комнат
+  // число комнат
   const checkRooms = () => selectRooms.value === 'any' || advert.offer.rooms === +selectRooms.value;
   // число гостей
   const checkGuests = () => selectGuests.value === 'any' || advert.offer.guests === +selectGuests.value;
@@ -42,6 +43,5 @@ const filterAdverts = (advert) => {
     return true;
   }
 };
-
 
 export {filterAdverts};

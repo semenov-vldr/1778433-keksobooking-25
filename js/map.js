@@ -1,5 +1,6 @@
 import {createCustomPopup} from './popup.js';
 import {getAdverts} from './api.js';
+import {setFilterChange, debounce} from './utils.js';
 
 
 const START_COORDINATE = {
@@ -21,6 +22,8 @@ const MAP_MARKER_DEFAULT = {
 
 const MAP_TILE = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const MAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+const RENDER_DELAY = 500;
 
 //******************************************************************** */
 
@@ -48,7 +51,7 @@ const mainPinMarker = L.marker(START_COORDINATE,
 mainPinMarker.addTo(map);
 
 const addressField = document.querySelector('#address');
-// Function for setting coordinate
+
 const setCoordinate = ({lat, lng}) => {
   const latItem = parseFloat(lat).toFixed(5);
   const lngItem = parseFloat(lng).toFixed(5);
@@ -60,10 +63,8 @@ mainPinMarker.on('moveend', (evt) => {
   setCoordinate(evt.target.getLatLng());
 });
 
-
-const formFilter = document.querySelector('.map__filters');
 const markerGroup = L.layerGroup().addTo(map);
-// Отрисовка меток объявлений
+
 const renderPinList = () => {
   getAdverts().then((array) => {
     markerGroup.clearLayers();
@@ -84,9 +85,7 @@ const renderPinList = () => {
 
 renderPinList();
 
-formFilter.addEventListener('change', () => {
-  renderPinList();
-});
+setFilterChange(debounce(() => renderPinList(), RENDER_DELAY));
 
 // Reset map
 addressField.value = `${START_COORDINATE.lat.toFixed(5)}, ${START_COORDINATE.lng.toFixed(5)}`;
@@ -97,4 +96,3 @@ resetButton.addEventListener('click', () => {
   mainPinMarker.setLatLng(START_COORDINATE);
   map.setView(START_COORDINATE, 16);
 });
-

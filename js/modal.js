@@ -3,7 +3,6 @@ const displayErrorTemplate = document.querySelector('#error').content.cloneNode(
 const ElementFragment = document.createDocumentFragment(); // фрагмент DOM-дерева
 const buttonModalError = document.querySelector('.error__button'); // "Попробовать снова"
 
-
 const displayModalSuccess = () => {
   ElementFragment.appendChild(displaySuccessTemplate);
   document.body.appendChild(ElementFragment);
@@ -15,7 +14,7 @@ const displayModalSuccess = () => {
     }
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key == 'Escape') {
+    if (e.key === 'Escape') {
       displaySuccess.classList.add('hidden');
     }
   });
@@ -32,7 +31,7 @@ const displayModalError = () => {
     }
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key == 'Escape') {
+    if (e.key === 'Escape') {
       displayError.classList.add('hidden');
     }
   });

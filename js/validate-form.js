@@ -107,16 +107,15 @@ form.addEventListener('submit', (evt) => {
         if (responce.status >= 300) {
           displayModalError();
           console.log('Не опубликовано');
-          console.log(responce.status);
         }
         else {
           displayModalSuccess();
           unblockSubmitButton();
           console.log('Опубликовано');
-          console.log(responce.status);
         }
       }
       );
   }
+  evt.target.reset();
 });
 

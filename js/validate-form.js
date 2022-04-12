@@ -2,30 +2,30 @@ import {API_URL} from './api.js';
 import {displayModalSuccess, displayModalError} from './modal.js';
 
 const form = document.querySelector('.ad-form');
+const titleField = form.querySelector('#title');
 const submitButton = form.querySelector('.ad-form__submit');
+const priceField = form.querySelector('#price');
+const roomNumberField = form.querySelector('#room_number');
+const typesOfHousing = form.querySelector('#type');
 
 const pristine = new Pristine(form, {
-  classTo: 'ad-form__element',              // Элемент, на который будут добавляться классы
-  errorClass: 'form__item--invalid', // Класс, обозначающий невалидное поле
-  successClass: 'form__item--valid', // Класс, обозначающий валидное поле
-  errorTextParent: 'ad-form__element',     // Элемент, куда будет выводиться текст с ошибкой
-  errorTextTag: 'span',               // Тег, который будет обрамлять текст ошибки
-  errorTextClass: 'form__error',       // Класс для элемента с текстом ошибки
+  classTo: 'ad-form__element',
+  errorClass: 'form__item--invalid',
+  successClass: 'form__item--valid',
+  errorTextParent: 'ad-form__element',
+  errorTextTag: 'span',
+  errorTextClass: 'form__error',
 });
 
 // Title
-const titleField = form.querySelector('#title');
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
-
 pristine.addValidator(titleField, validateTitle, 'От 30 до 100 символов');
 
 // Price
-const priceField = form.querySelector('#price');
 const validatePrice = (value) => parseInt(value, 10) >= 0 && parseInt(value, 10) <= 100000;
 pristine.addValidator(priceField, validatePrice, 'От 0 до 100 000');
 
 // Rooms and guests
-const roomNumberField = form.querySelector('#room_number');
 const capacityField = form.querySelector('#capacity');
 const settleOption = {
   '1'   : ['1'],
@@ -43,7 +43,6 @@ pristine.addValidator(roomNumberField, validateSettle, getSettleErrorMessage);
 pristine.addValidator(capacityField, validateSettle, getSettleErrorMessage);
 
 // Тип жилья
-const typesOfHousing = form.querySelector('#type');
 const housingMinPrices = {
   bungalow : 0,
   flat : 1000,
@@ -106,6 +105,7 @@ form.addEventListener('submit', (evt) => {
       .then((responce) => {
         if (responce.status >= 300) {
           displayModalError();
+          unblockSubmitButton();
           console.log('Не опубликовано');
         }
         else {
@@ -116,6 +116,5 @@ form.addEventListener('submit', (evt) => {
       }
       );
   }
-  evt.target.reset();
 });
 

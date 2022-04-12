@@ -94,5 +94,8 @@ addressField.value = `${START_COORDINATE.lat.toFixed(5)}, ${START_COORDINATE.lng
 const resetButton = document.querySelector('.ad-form__reset');
 resetButton.addEventListener('click', () => {
   mainPinMarker.setLatLng(START_COORDINATE);
-  map.setView(START_COORDINATE, 16);
+  map.setView(START_COORDINATE, 11);
+  setTimeout(() => {
+    addressField.value = `${START_COORDINATE.lat.toFixed(5)}, ${START_COORDINATE.lng.toFixed(5)}`;
+  }, 1);
 });

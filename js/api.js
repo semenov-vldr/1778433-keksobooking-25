@@ -1,6 +1,6 @@
 import {showAlert} from './utils.js';
 
-const API_URL = 'https://25.javascript.pages.academy/keksobookingg';
+const API_URL = 'https://25.javascript.pages.academy/keksobooking';
 
 const elemFormMap = document.querySelectorAll('.map__filter, .map__features');
 
@@ -19,7 +19,7 @@ const sendAdvert = (onSuccess, onError, body) => {
       body,
     },
   ).then((response) => {
-    if (response.status >= 300) {
+    if (response.status < 300) {
       onSuccess();
     }
     else {

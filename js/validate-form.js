@@ -96,11 +96,11 @@ form.addEventListener('submit', (evt) => {
     const formData = new FormData(evt.target);
     sendAdvert(
       () => {
-        displayModalError();
+        displayModalSuccess();
         unblockSubmitButton();
       },
       () => {
-        displayModalSuccess();
+        displayModalError();
         unblockSubmitButton();
       },
       formData,

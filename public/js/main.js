@@ -1,0 +1,10 @@
+import './popup.js';
+import './validate-form.js';
+import './toggle-active-form.js';
+import './map.js';
+import './get-slider.js';
+import './api.js';
+import './utils.js';
+import './add-avatar-and-images.js';
+import './modal.js';
+import './filter.js';
